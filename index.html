@@ -39,6 +39,70 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             border: 1px solid #2b2d31;
         }
+        
+        /* USER PROFILE CARD STYLES */
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-align: left;
+            background: linear-gradient(145deg, #1e1f22, #151618);
+            border: 1px solid #35373c;
+        }
+        .avatar-container {
+            position: relative;
+            cursor: pointer;
+        }
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #5865F2;
+            background-color: #2b2d31;
+        }
+        .avatar-hint {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #23a55a;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            border: 2px solid #1e1f22;
+        }
+        .profile-details {
+            flex: 1;
+        }
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 80%;
+            padding-bottom: 2px;
+            border-bottom: 1px dashed transparent;
+            transition: border-color 0.2s;
+        }
+        .profile-name:focus {
+            border-bottom-color: #5865F2;
+        }
+        .profile-rank {
+            font-size: 0.85rem;
+            color: #9472f1;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
         .currency-title { 
             font-size: 1.2rem; 
             color: #b5bac1; 
@@ -199,6 +263,22 @@
         <h1>🐾 ꜱᴋʏᴘᴀᴡꜱ ʙᴀɴᴋ 🐾</h1>
         <div class="subtitle">Official Skyline Central Economy Hub</div>
 
+        <!-- 👤 INTERACTIVE PROFILE CARD -->
+        <div class="card profile-card">
+            <div class="avatar-container" onclick="triggerAvatarUpload()">
+                <!-- Default Placeholder Cat Avatar -->
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150" id="avatarImage" class="profile-avatar" alt="Avatar">
+                <div class="avatar-hint">✏️</div>
+            </div>
+            <input type="file" id="avatarUpload" accept="image/*" style="display: none;" onchange="loadAvatar(event)">
+            
+            <div class="profile-details">
+                <input type="text" id="profileNameInput" class="profile-name" value="VoidKitten#0001" placeholder="Click to edit name...">
+                <div class="profile-rank" id="profileRankDisplay">Rank: Loading...</div>
+            </div>
+        </div>
+
+        <!-- Live Vault Card -->
         <div class="card">
             <div class="status-container">
                 <span class="status-dot"></span>
@@ -214,6 +294,7 @@
             <div id="workCooldown" style="color: #f23f43; font-size: 0.85rem; margin-top: 8px; height: 15px;"></div>
         </div>
 
+        <!-- 🎰 SKYPAWS CASINO SECTION -->
         <div class="card casino-section">
             <div class="currency-title" style="color: #fff; font-weight: bold;">🎰 Skyline High-Rollers Slot Machine</div>
             <div class="slots-display" id="slotsDisplay">🐾 🐾 🐾</div>
@@ -230,6 +311,7 @@
             </div>
         </div>
 
+        <!-- Shop Section -->
         <h2>🛒 Skypaws Server Shop Hub</h2>
         <div class="shop-grid">
             <div class="shop-item" id="item-vip" data-price="5000">
@@ -256,11 +338,13 @@
 
     </div>
 
+    <!-- JAVASCRIPT ENGINE -->
     <script>
         let balance = 0;
         const emojis = ['🐾', '💎', '👑', '🐱', '❌'];
 
         const balanceDisplay = document.getElementById('balanceDisplay');
+        const profileRankDisplay = document.getElementById('profileRankDisplay');
         const workBtn = document.getElementById('workBtn');
         const workCooldown = document.getElementById('workCooldown');
         const betInput = document.getElementById('betInput');
@@ -269,9 +353,23 @@
         const casinoLog = document.getElementById('casinoLog');
         const shopItems = document.querySelectorAll('.shop-item');
 
+        // Dynamically adjust user tier rankings based on session net worth
+        function updateRank() {
+            if (balance < 1000) {
+                profileRankDisplay.innerText = "Rank: 🐾 Void Kitten";
+            } else if (balance >= 1000 && balance < 5000) {
+                profileRankDisplay.innerText = "Rank: 💰 Rising Hustler";
+            } else if (balance >= 5000 && balance < 15000) {
+                profileRankDisplay.innerText = "Rank: 🎰 High Roller";
+            } else {
+                profileRankDisplay.innerText = "Rank: 👑 Server Banker";
+            }
+        }
+
         // Update display elements and evaluate item statuses
         function updateUI() {
             balanceDisplay.innerText = balance.toLocaleString();
+            updateRank();
             
             // Highlight items based on budget affordability
             shopItems.forEach(item => {
@@ -286,16 +384,23 @@
             });
         }
 
+        // Profile Avatar Upload Triggers
+        function triggerAvatarUpload() {
+            document.getElementById('avatarUpload').click();
+        }
+        function loadAvatar(event) {
+            const image = document.getElementById('avatarImage');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+
         // 💼 WORK ACTION MECHANIC
         workBtn.addEventListener('click', () => {
-            const pay = Math.floor(Math.random() * 200) + 100; // Earn between 100-300
+            const pay = Math.floor(Math.random() * 200) + 100;
             balance += pay;
             updateUI();
             
-            // Log work trigger activity
-            casinoLog.innerHTML = `[WORK] You completed bank tasks and earned 🐾 ${pay}!<br>` + casinoLog.innerHTML;
+            casinoLog.innerHTML = `[WORK] You completed tasks and earned 🐾 ${pay}!<br>` + casinoLog.innerHTML;
             
-            // Apply 5-second cooldown safety lock
             workBtn.disabled = true;
             let cooldownTime = 5;
             workCooldown.innerText = `Cooldown active: ${cooldownTime}s`;
@@ -327,27 +432,25 @@
 
             balance -= bet;
             
-            // Randomly pick three slot outcomes
             const s1 = emojis[Math.floor(Math.random() * emojis.length)];
             const s2 = emojis[Math.floor(Math.random() * emojis.length)];
             const s3 = emojis[Math.floor(Math.random() * emojis.length)];
             
             slotsDisplay.innerText = `${s1} ${s2} ${s3}`;
 
-            // Check combinations
             if (s1 === s2 && s2 === s3) {
-                let multiplier = 5; // Triple Match pay
-                if (s1 === '👑') multiplier = 10; // Jackpot Match pay
+                let multiplier = 5;
+                if (s1 === '👑') multiplier = 10;
                 
                 const winAmount = bet * multiplier;
                 balance += winAmount;
-                casinoLog.innerHTML = `[🎰 JACKPOT] ${s1}${s2}${s3} - TRIPLE MATCH! You won 🐾 ${winAmount}!<br>` + casinoLog.innerHTML;
+                casinoLog.innerHTML = `[🎰 JACKPOT] ${s1}${s2}${s3} - TRIPLE MATCH! Won 🐾 ${winAmount}!<br>` + casinoLog.innerHTML;
             } else if (s1 === s2 || s2 === s3 || s1 === s3) {
-                const winAmount = Math.floor(bet * 1.5); // Double Match pay
+                const winAmount = Math.floor(bet * 1.5);
                 balance += winAmount;
-                casinoLog.innerHTML = `[🎰 WIN] Double match! You won 🐾 ${winAmount}.<br>` + casinoLog.innerHTML;
+                casinoLog.innerHTML = `[🎰 WIN] Double match! Won 🐾 ${winAmount}.<br>` + casinoLog.innerHTML;
             } else {
-                casinoLog.innerHTML = `[🎰 LOSE] No match. The bank kept your 🐾 ${bet}. Try again!<br>` + casinoLog.innerHTML;
+                casinoLog.innerHTML = `[🎰 LOSE] No match. Lost 🐾 ${bet}. Try again!<br>` + casinoLog.innerHTML;
             }
 
             updateUI();
@@ -358,14 +461,13 @@
             if (balance >= cost) {
                 balance -= cost;
                 updateUI();
-                alert(`🎉 Successfully bought ${itemName}! Head over to the Discord server to claim it from staff.`);
+                alert(`🎉 Successfully bought ${itemName}! Claim it from server staff.`);
                 casinoLog.innerHTML = `[SHOP] Purchased ${itemName} for 🐾 ${cost.toLocaleString()}.<br>` + casinoLog.innerHTML;
             } else {
                 alert("Insufficient funds inside your local session vault!");
             }
         }
 
-        // Initialize state configuration
         updateUI();
     </script>
 
