@@ -160,10 +160,10 @@
             border: 1px solid #2b2d31;
         }
         
-        /* STATUS MODIFIERS (JavaScript updates these) */
+        /* STATUS MODIFIERS */
         .affordable {
             border-color: #23a55a !important;
-            box-shadow: 0 0 12px rgba(35, 165, 144, 0.15);
+            box-shadow: 0 0 12px rgba(35, 165, 90, 0.2);
         }
         .locked {
             opacity: 0.6;
@@ -177,7 +177,6 @@
         <h1>🐾 ꜱᴋʏᴘᴀᴡꜱ ʙᴀɴᴋ 🐾</h1>
         <div class="subtitle">Official Skyline Central Economy Hub</div>
 
-        <!-- Bank Card -->
         <div class="card">
             <div class="status-container">
                 <span class="status-dot"></span>
@@ -194,11 +193,9 @@
             </div>
         </div>
 
-        <!-- Shop Section -->
         <h2>🛒 Skypaws Server Shop Hub</h2>
         <div class="shop-grid">
             
-            <!-- Item 1 (Price: 5000) -->
             <div class="shop-item" data-price="5000">
                 <div class="item-name">🔮 Midnight VIP</div>
                 <div class="item-desc">Unlock a glowing purple name and secret chat access.</div>
@@ -206,7 +203,6 @@
                 <div class="buy-cmd">Buy code: !buy midnight-vip</div>
             </div>
 
-            <!-- Item 2 (Price: 2500) -->
             <div class="shop-item" data-price="2500">
                 <div class="item-name">🎨 Custom Color</div>
                 <div class="item-desc">Pick any custom color role for your username!</div>
@@ -214,7 +210,6 @@
                 <div class="buy-cmd">Buy code: !buy color</div>
             </div>
 
-            <!-- Item 3 (Price: 10000) -->
             <div class="shop-item" data-price="10000">
                 <div class="item-name">📣 Server Shoutout</div>
                 <div class="item-desc">Get an @everyone shoutout pinned in announcement.</div>
@@ -225,35 +220,27 @@
         </div>
     </div>
 
-    <!-- 🛠️ JAVASCRIPT ENGINE SCRIPT 🛠️ -->
     <script>
         const balanceInput = document.getElementById('balanceInput');
         const shopItems = document.querySelectorAll('.shop-item');
 
         function checkAffordableItems() {
-            // Get value from input box, default to 0 if blank
             const currentBalance = parseInt(balanceInput.value) || 0;
 
             shopItems.forEach(item => {
-                // Read the cost data attribute from the HTML item setup
                 const itemCost = parseInt(item.getAttribute('data-price'));
 
                 if (currentBalance >= itemCost) {
-                    // Turn border green if user can buy it
                     item.classList.add('affordable');
                     item.classList.remove('locked');
                 } else {
-                    // Turn border reddish-tint/fade if locked
                     item.classList.remove('affordable');
                     item.classList.add('locked');
                 }
             });
         }
 
-        // Listen for typing activity in real-time
         balanceInput.addEventListener('input', checkAffordableItems);
-
-        // Run checking calculation immediately on page bootup
         checkAffordableItems();
     </script>
 
