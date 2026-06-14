@@ -39,14 +39,20 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             border: 1px solid #2b2d31;
         }
+        .currency-title { 
+            font-size: 1.2rem; 
+            color: #b5bac1; 
+            font-weight: 500;
+        }
+        .currency { 
+            font-size: 4rem; 
+            margin: 15px 0; 
+            color: #fff; 
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
         .input-group {
             margin: 20px 0;
-        }
-        label {
-            display: block;
-            color: #b5bac1;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
         }
         input[type="number"], input[type="text"], select {
             background-color: #111214;
@@ -59,9 +65,8 @@
             outline: none;
             transition: border 0.2s;
         }
-        input:focus, select:focus {
-            border-color: #5865F2;
-        }
+        input:focus, select:focus { border-color: #5865F2; }
+        
         .status-container {
             display: inline-flex;
             align-items: center;
@@ -95,13 +100,36 @@
             font-size: 1rem;
             box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
             transition: all 0.2s ease;
-            margin-top: 15px;
         }
-        .btn:hover {
-            background-color: #4752c4;
-            transform: translateY(-2px);
-        }
+        .btn:hover { background-color: #4752c4; transform: translateY(-2px); }
+        .btn:disabled { background-color: #4f545c; cursor: not-allowed; transform: none; box-shadow: none; }
         
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .btn-work { background-color: #23a55a; box-shadow: 0 4px 12px rgba(35, 165, 90, 0.3); }
+        .btn-work:hover { background-color: #1a7a42; }
+
+        /* CASINO STYLES */
+        .casino-section {
+            background: linear-gradient(145deg, #2c1a4d, #1e1f22);
+            border: 2px solid #9472f1;
+        }
+        .slots-display {
+            font-size: 3rem;
+            letter-spacing: 15px;
+            margin: 20px 0;
+            background-color: #111214;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #2b2d31;
+            display: inline-block;
+            min-width: 200px;
+        }
+
         /* SHOP STYLES */
         h2 {
             color: #ffffff;
@@ -125,18 +153,8 @@
             text-align: left;
             transition: all 0.2s ease;
         }
-        .item-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .item-desc {
-            font-size: 0.85rem;
-            color: #949ba4;
-            margin-bottom: 15px;
-            height: 35px;
-        }
+        .item-name { font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 5px; }
+        .item-desc { font-size: 0.85rem; color: #949ba4; margin-bottom: 15px; height: 35px; }
         .item-price {
             font-size: 1.1rem;
             color: #23a55a;
@@ -146,54 +164,16 @@
             padding: 4px 10px;
             border-radius: 6px;
         }
-        .buy-cmd {
-            font-family: monospace;
-            background-color: #111214;
-            padding: 4px 6px;
-            border-radius: 4px;
-            color: #e3e5e8;
-            font-size: 0.8rem;
-            display: block;
-            margin-top: 12px;
-            border: 1px solid #2b2d31;
-        }
-        
-        /* BANKER ADMIN PANEL STYLES */
-        .admin-panel {
-            background-color: #1a1b1e;
-            border: 2px dashed #9472f1;
-            border-radius: 16px;
-            padding: 25px;
-            margin-top: 50px;
-            text-align: left;
-        }
-        .admin-title {
-            color: #9472f1;
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .admin-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .admin-field {
-            flex: 1;
-            min-width: 180px;
-        }
-        .admin-field label {
-            text-align: left;
-        }
-        .admin-field input, .admin-field select {
+        .btn-buy {
             width: 100%;
-            box-sizing: border-box;
-            text-align: left;
+            margin-top: 15px;
+            padding: 8px;
+            font-size: 0.9rem;
+            background-color: #e3e5e8;
+            color: #111214;
         }
+        .btn-buy:hover { background-color: #b5bac1; }
+
         .terminal-box {
             background-color: #0c0d0e;
             border: 1px solid #2b2d31;
@@ -201,10 +181,11 @@
             padding: 15px;
             border-radius: 8px;
             color: #23a55a;
-            height: 120px;
+            height: 100px;
             overflow-y: auto;
             font-size: 0.9rem;
             margin-top: 15px;
+            text-align: left;
         }
 
         /* STATUS MODIFIERS */
@@ -221,94 +202,81 @@
         <div class="card">
             <div class="status-container">
                 <span class="status-dot"></span>
-                Skypaws System Secure
+                Your Vault Secure
             </div>
+            <div class="currency-title">Your Balance</div>
+            <div class="currency">🐾 <span id="balanceDisplay">0</span></div>
+            
+            <div class="action-btns">
+                <button class="btn btn-work" id="workBtn">💼 Work for Skypaws</button>
+                <a href="https://discord.gg/hkURt2yfs6" class="btn" target="_blank">Join Server</a>
+            </div>
+            <div id="workCooldown" style="color: #f23f43; font-size: 0.85rem; margin-top: 8px; height: 15px;"></div>
+        </div>
 
+        <div class="card casino-section">
+            <div class="currency-title" style="color: #fff; font-weight: bold;">🎰 Skyline High-Rollers Slot Machine</div>
+            <div class="slots-display" id="slotsDisplay">🐾 🐾 🐾</div>
+            
             <div class="input-group">
-                <label for="balanceInput">Client Balance Checker (🐾):</label>
-                <input type="number" id="balanceInput" value="0" min="0" style="width: 180px;">
+                <label style="color: #e3e5e8;">Bet Amount (🐾):</label>
+                <input type="number" id="betInput" value="100" min="10" style="width: 120px;">
             </div>
             
-            <div>
-                <a href="https://discord.gg/hkURt2yfs6" class="btn" target="_blank">Join Discord Server</a>
+            <button class="btn" id="gambleBtn" style="background-color: #9472f1; box-shadow: 0 4px 12px rgba(148,114,241,0.4);">Pull Lever</button>
+            
+            <div class="terminal-box" id="casinoLog">
+                [CASINO] Insert a bet and pull the lever to try your luck!<br>
             </div>
         </div>
 
         <h2>🛒 Skypaws Server Shop Hub</h2>
         <div class="shop-grid">
-            <div class="shop-item" data-price="5000">
+            <div class="shop-item" id="item-vip" data-price="5000">
                 <div class="item-name">🔮 Midnight VIP</div>
                 <div class="item-desc">Unlock a glowing purple name and secret chat access.</div>
                 <div class="item-price">🐾 5,000</div>
-                <div class="buy-cmd">Buy code: !buy midnight-vip</div>
+                <button class="btn btn-buy" onclick="buyItem('Midnight VIP', 5000)">Purchase</button>
             </div>
 
-            <div class="shop-item" data-price="2500">
+            <div class="shop-item" id="item-color" data-price="2500">
                 <div class="item-name">🎨 Custom Color</div>
                 <div class="item-desc">Pick any custom color role for your username!</div>
                 <div class="item-price">🐾 2,500</div>
-                <div class="buy-cmd">Buy code: !buy color</div>
+                <button class="btn btn-buy" onclick="buyItem('Custom Color', 2500)">Purchase</button>
             </div>
 
-            <div class="shop-item" data-price="10000">
+            <div class="shop-item" id="item-shoutout" data-price="10000">
                 <div class="item-name">📣 Server Shoutout</div>
                 <div class="item-desc">Get an @everyone shoutout pinned in announcement.</div>
                 <div class="item-price">🐾 10,000</div>
-                <div class="buy-cmd">Buy code: !buy shoutout</div>
-            </div>
-        </div>
-
-        <div class="admin-panel">
-            <div class="admin-title">🛠️ Banker Command Console</div>
-            <p style="color: #949ba4; font-size: 0.9rem; margin-top: -10px; margin-bottom: 20px;">
-                Authorized employee workspace. Use this to format bot commands effortlessly.
-            </p>
-            
-            <div class="admin-row">
-                <div class="admin-field">
-                    <label>Action Type</label>
-                    <select id="actionType">
-                        <option value="give">Give Skypaws (!eco give)</option>
-                        <option value="take">Take Skypaws (!eco take)</option>
-                        <option value="set">Set Balance (!eco set)</option>
-                    </select>
-                </div>
-                <div class="admin-field">
-                    <label>Target User ID / Mention</label>
-                    <input type="text" id="targetUser" placeholder="@username or ID">
-                </div>
-                <div class="admin-field">
-                    <label>Amount (🐾)</label>
-                    <input type="number" id="actionAmount" value="1000">
-                </div>
-            </div>
-
-            <button class="btn" id="generateCmdBtn" style="margin-top: 5px; background-color: #9472f1;">Generate Bot Command</button>
-
-            <div class="terminal-box" id="terminalLog">
-                [SYSTEM] Skypaws Bank Terminal initialized... Waiting for administrator input.<br>
+                <button class="btn btn-buy" onclick="buyItem('Server Shoutout', 10000)">Purchase</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        const balanceInput = document.getElementById('balanceInput');
-        const shopItems = document.querySelectorAll('.shop-item');
-        
-        // Admin Panel Elements
-        const actionType = document.getElementById('actionType');
-        const targetUser = document.getElementById('targetUser');
-        const actionAmount = document.getElementById('actionAmount');
-        const generateCmdBtn = document.getElementById('generateCmdBtn');
-        const terminalLog = document.getElementById('terminalLog');
+        let balance = 0;
+        const emojis = ['🐾', '💎', '👑', '🐱', '❌'];
 
-        // Real-time client balance afford check
-        function checkAffordableItems() {
-            const currentBalance = parseInt(balanceInput.value) || 0;
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const workBtn = document.getElementById('workBtn');
+        const workCooldown = document.getElementById('workCooldown');
+        const betInput = document.getElementById('betInput');
+        const gambleBtn = document.getElementById('gambleBtn');
+        const slotsDisplay = document.getElementById('slotsDisplay');
+        const casinoLog = document.getElementById('casinoLog');
+        const shopItems = document.querySelectorAll('.shop-item');
+
+        // Update display elements and evaluate item statuses
+        function updateUI() {
+            balanceDisplay.innerText = balance.toLocaleString();
+            
+            // Highlight items based on budget affordability
             shopItems.forEach(item => {
                 const itemCost = parseInt(item.getAttribute('data-price'));
-                if (currentBalance >= itemCost) {
+                if (balance >= itemCost) {
                     item.classList.add('affordable');
                     item.classList.remove('locked');
                 } else {
@@ -317,25 +285,88 @@
                 }
             });
         }
-        balanceInput.addEventListener('input', checkAffordableItems);
-        checkAffordableItems();
 
-        // Banker Command Generator
-        generateCmdBtn.addEventListener('click', () => {
-            const type = actionType.value;
-            const user = targetUser.value.trim() || "@user";
-            const amt = actionAmount.value || "0";
+        // 💼 WORK ACTION MECHANIC
+        workBtn.addEventListener('click', () => {
+            const pay = Math.floor(Math.random() * 200) + 100; // Earn between 100-300
+            balance += pay;
+            updateUI();
             
-            let commandText = "";
-            if(type === "give") commandText = `!eco give ${user} ${amt}`;
-            if(type === "take") commandText = `!eco take ${user} ${amt}`;
-            if(type === "set")  commandText = `!eco set ${user} ${amt}`;
+            // Log work trigger activity
+            casinoLog.innerHTML = `[WORK] You completed bank tasks and earned 🐾 ${pay}!<br>` + casinoLog.innerHTML;
             
-            // Format log print inside terminal box
-            const timestamp = new Date().toLocaleTimeString();
-            terminalLog.innerHTML += `[${timestamp}] Generated: <span style="color: #fff; font-weight: bold;">${commandText}</span><br>`;
-            terminalLog.scrollTop = terminalLog.scrollHeight; // Auto scroll down
+            // Apply 5-second cooldown safety lock
+            workBtn.disabled = true;
+            let cooldownTime = 5;
+            workCooldown.innerText = `Cooldown active: ${cooldownTime}s`;
+            
+            const timer = setInterval(() => {
+                cooldownTime--;
+                if (cooldownTime <= 0) {
+                    clearInterval(timer);
+                    workBtn.disabled = false;
+                    workCooldown.innerText = '';
+                } else {
+                    workCooldown.innerText = `Cooldown active: ${cooldownTime}s`;
+                }
+            }, 1000);
         });
+
+        // 🎰 CASINO GAMBLE ACTION MECHANIC
+        gambleBtn.addEventListener('click', () => {
+            const bet = parseInt(betInput.value) || 0;
+            
+            if (bet <= 0) {
+                alert("Please enter a valid bet amount!");
+                return;
+            }
+            if (bet > balance) {
+                alert("You don't have enough Skypaws in your vault for that bet!");
+                return;
+            }
+
+            balance -= bet;
+            
+            // Randomly pick three slot outcomes
+            const s1 = emojis[Math.floor(Math.random() * emojis.length)];
+            const s2 = emojis[Math.floor(Math.random() * emojis.length)];
+            const s3 = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            slotsDisplay.innerText = `${s1} ${s2} ${s3}`;
+
+            // Check combinations
+            if (s1 === s2 && s2 === s3) {
+                let multiplier = 5; // Triple Match pay
+                if (s1 === '👑') multiplier = 10; // Jackpot Match pay
+                
+                const winAmount = bet * multiplier;
+                balance += winAmount;
+                casinoLog.innerHTML = `[🎰 JACKPOT] ${s1}${s2}${s3} - TRIPLE MATCH! You won 🐾 ${winAmount}!<br>` + casinoLog.innerHTML;
+            } else if (s1 === s2 || s2 === s3 || s1 === s3) {
+                const winAmount = Math.floor(bet * 1.5); // Double Match pay
+                balance += winAmount;
+                casinoLog.innerHTML = `[🎰 WIN] Double match! You won 🐾 ${winAmount}.<br>` + casinoLog.innerHTML;
+            } else {
+                casinoLog.innerHTML = `[🎰 LOSE] No match. The bank kept your 🐾 ${bet}. Try again!<br>` + casinoLog.innerHTML;
+            }
+
+            updateUI();
+        });
+
+        // 🛒 PURCHASE PROCESSING HANDLER
+        window.buyItem = function(itemName, cost) {
+            if (balance >= cost) {
+                balance -= cost;
+                updateUI();
+                alert(`🎉 Successfully bought ${itemName}! Head over to the Discord server to claim it from staff.`);
+                casinoLog.innerHTML = `[SHOP] Purchased ${itemName} for 🐾 ${cost.toLocaleString()}.<br>` + casinoLog.innerHTML;
+            } else {
+                alert("Insufficient funds inside your local session vault!");
+            }
+        }
+
+        // Initialize state configuration
+        updateUI();
     </script>
 
 </body>
