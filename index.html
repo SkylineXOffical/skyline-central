@@ -285,8 +285,8 @@
 
     <!-- 🛠️ LIVE SHEETDB ENGINE -->
     <script>
-        // Paste your SheetDB API URL inside the quotes below!
-        const SHEETDB_API_URL = "YOUR_SHEETDB_API_URL_HERE";
+        // Real active SheetDB URL connection link mapped below
+        const SHEETDB_API_URL = "https://sheetdb.io/api/v1/m22eox4sr1zd8";
 
         const leaderboardDisplay = document.getElementById('leaderboardDisplay');
         const avatarImage = document.getElementById('avatarImage');
@@ -309,7 +309,7 @@
         // Fetch real database data from the Google Sheet via SheetDB
         async function fetchLiveLeaderboard() {
             if (SHEETDB_API_URL === "YOUR_SHEETDB_API_URL_HERE") {
-                leaderboardDisplay.innerHTML = `<div class="loading-text" style="color: #f23f43;">⚠️ Code uploaded! Waiting for Step 2 (Google Sheets connection Setup).</div>`;
+                leaderboardDisplay.innerHTML = `<div class="loading-text" style="color: #f23f43;">⚠️ Code uploaded! Waiting for configuration update.</div>`;
                 return;
             }
 
