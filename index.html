@@ -263,10 +263,8 @@
         <h1>🐾 ꜱᴋʏᴘᴀᴡꜱ ʙᴀɴᴋ 🐾</h1>
         <div class="subtitle">Official Skyline Central Economy Hub</div>
 
-        <!-- 👤 INTERACTIVE PROFILE CARD -->
         <div class="card profile-card">
             <div class="avatar-container" onclick="triggerAvatarUpload()">
-                <!-- Default Placeholder Cat Avatar -->
                 <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150" id="avatarImage" class="profile-avatar" alt="Avatar">
                 <div class="avatar-hint">✏️</div>
             </div>
@@ -278,7 +276,6 @@
             </div>
         </div>
 
-        <!-- Live Vault Card -->
         <div class="card">
             <div class="status-container">
                 <span class="status-dot"></span>
@@ -294,7 +291,6 @@
             <div id="workCooldown" style="color: #f23f43; font-size: 0.85rem; margin-top: 8px; height: 15px;"></div>
         </div>
 
-        <!-- 🎰 SKYPAWS CASINO SECTION -->
         <div class="card casino-section">
             <div class="currency-title" style="color: #fff; font-weight: bold;">🎰 Skyline High-Rollers Slot Machine</div>
             <div class="slots-display" id="slotsDisplay">🐾 🐾 🐾</div>
@@ -311,7 +307,6 @@
             </div>
         </div>
 
-        <!-- Shop Section -->
         <h2>🛒 Skypaws Server Shop Hub</h2>
         <div class="shop-grid">
             <div class="shop-item" id="item-vip" data-price="5000">
@@ -338,13 +333,15 @@
 
     </div>
 
-    <!-- JAVASCRIPT ENGINE -->
     <script>
-        let balance = 0;
+        // Load initial balance, default to 0 if no save found
+        let balance = parseInt(localStorage.getItem('skypaws_balance')) || 0;
         const emojis = ['🐾', '💎', '👑', '🐱', '❌'];
 
         const balanceDisplay = document.getElementById('balanceDisplay');
         const profileRankDisplay = document.getElementById('profileRankDisplay');
+        const profileNameInput = document.getElementById('profileNameInput');
+        const avatarImage = document.getElementById('avatarImage');
         const workBtn = document.getElementById('workBtn');
         const workCooldown = document.getElementById('workCooldown');
         const betInput = document.getElementById('betInput');
@@ -353,7 +350,35 @@
         const casinoLog = document.getElementById('casinoLog');
         const shopItems = document.querySelectorAll('.shop-item');
 
-        // Dynamically adjust user tier rankings based on session net worth
+        // Load saved Name and Profile Picture from device memory
+        if (localStorage.getItem('skypaws_username')) {
+            profileNameInput.value = localStorage.getItem('skypaws_username');
+        }
+        if (localStorage.getItem('skypaws_avatar')) {
+            avatarImage.src = localStorage.getItem('skypaws_avatar');
+        }
+
+        // Save username changes automatically as they type
+        profileNameInput.addEventListener('input', () => {
+            localStorage.setItem('skypaws_username', profileNameInput.value);
+        });
+
+        // Save Avatar images using Base64 string compression data
+        function triggerAvatarUpload() {
+            document.getElementById('avatarUpload').click();
+        }
+        function loadAvatar(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                avatarImage.src = reader.result;
+                localStorage.setItem('skypaws_avatar', reader.result); // Save string data
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
         function updateRank() {
             if (balance < 1000) {
                 profileRankDisplay.innerText = "Rank: 🐾 Void Kitten";
@@ -366,12 +391,12 @@
             }
         }
 
-        // Update display elements and evaluate item statuses
+        // Save state values and re-evaluate interface rendering
         function updateUI() {
             balanceDisplay.innerText = balance.toLocaleString();
+            localStorage.setItem('skypaws_balance', balance); // Auto-save balance to phone memory
             updateRank();
             
-            // Highlight items based on budget affordability
             shopItems.forEach(item => {
                 const itemCost = parseInt(item.getAttribute('data-price'));
                 if (balance >= itemCost) {
@@ -382,15 +407,6 @@
                     item.classList.add('locked');
                 }
             });
-        }
-
-        // Profile Avatar Upload Triggers
-        function triggerAvatarUpload() {
-            document.getElementById('avatarUpload').click();
-        }
-        function loadAvatar(event) {
-            const image = document.getElementById('avatarImage');
-            image.src = URL.createObjectURL(event.target.files[0]);
         }
 
         // 💼 WORK ACTION MECHANIC
@@ -468,6 +484,7 @@
             }
         }
 
+        // Initialize state configuration on startup
         updateUI();
     </script>
 
