@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Central - Skypaws Bank Vault</title>
+    <title>Skyline Central - Live Skypaws Bank</title>
     <style>
         body {
             background-color: #111214;
@@ -89,10 +89,6 @@
             width: 80%;
             padding-bottom: 2px;
             border-bottom: 1px dashed transparent;
-            transition: border-color 0.2s;
-        }
-        .profile-name:focus {
-            border-bottom-color: #5865F2;
         }
         .profile-rank {
             font-size: 0.85rem;
@@ -115,21 +111,6 @@
             font-weight: 800;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
-        .input-group {
-            margin: 20px 0;
-        }
-        input[type="number"], input[type="text"], select {
-            background-color: #111214;
-            border: 1px solid #2b2d31;
-            padding: 10px 15px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1.1rem;
-            text-align: center;
-            outline: none;
-            transition: border 0.2s;
-        }
-        input:focus, select:focus { border-color: #5865F2; }
         
         .status-container {
             display: inline-flex;
@@ -166,34 +147,7 @@
             transition: all 0.2s ease;
         }
         .btn:hover { background-color: #4752c4; transform: translateY(-2px); }
-        .btn:disabled { background-color: #4f545c; cursor: not-allowed; transform: none; box-shadow: none; }
         
-        .action-btns {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .btn-work { background-color: #23a55a; box-shadow: 0 4px 12px rgba(35, 165, 90, 0.3); }
-        .btn-work:hover { background-color: #1a7a42; }
-
-        /* CASINO STYLES */
-        .casino-section {
-            background: linear-gradient(145deg, #2c1a4d, #1e1f22);
-            border: 2px solid #9472f1;
-        }
-        .slots-display {
-            font-size: 3rem;
-            letter-spacing: 15px;
-            margin: 20px 0;
-            background-color: #111214;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #2b2d31;
-            display: inline-block;
-            min-width: 200px;
-        }
-
         /* SHOP STYLES */
         h2 {
             color: #ffffff;
@@ -215,7 +169,6 @@
             border-radius: 12px;
             padding: 20px;
             text-align: left;
-            transition: all 0.2s ease;
         }
         .item-name { font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 5px; }
         .item-desc { font-size: 0.85rem; color: #949ba4; margin-bottom: 15px; height: 35px; }
@@ -227,29 +180,6 @@
             display: inline-block;
             padding: 4px 10px;
             border-radius: 6px;
-        }
-        .btn-buy {
-            width: 100%;
-            margin-top: 15px;
-            padding: 8px;
-            font-size: 0.9rem;
-            background-color: #e3e5e8;
-            color: #111214;
-        }
-        .btn-buy:hover { background-color: #b5bac1; }
-
-        .terminal-box {
-            background-color: #0c0d0e;
-            border: 1px solid #2b2d31;
-            font-family: monospace;
-            padding: 15px;
-            border-radius: 8px;
-            color: #23a55a;
-            height: 100px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            margin-top: 15px;
-            text-align: left;
         }
 
         /* 🏆 LEADERBOARD STYLES */
@@ -284,28 +214,20 @@
         .leaderboard-score {
             color: #23a55a;
         }
-        /* Style when YOU are highlighted in the list */
-        .user-highlight {
-            border-color: #5865F2 !important;
-            background: linear-gradient(90deg, #1e1f22, #1a1c38);
-            box-shadow: 0 0 10px rgba(88, 101, 242, 0.15);
+        .loading-text {
+            color: #949ba4;
+            font-style: italic;
+            padding: 20px;
         }
-        .user-highlight .leaderboard-name {
-            color: #fff;
-            font-weight: bold;
-        }
-
-        /* STATUS MODIFIERS */
-        .affordable { border-color: #23a55a !important; }
-        .locked { opacity: 0.6; border-color: #f23f43 !important; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>🐾 ꜱᴋʏᴘᴀᴡꜱ ʙᴀɴᴋ 🐾</h1>
-        <div class="subtitle">Official Skyline Central Economy Hub</div>
+        <div class="subtitle">Live Discord Economy Dashboard</div>
 
+        <!-- 👤 LIVE USER PROFILE CARD -->
         <div class="card profile-card">
             <div class="avatar-container" onclick="triggerAvatarUpload()">
                 <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150" id="avatarImage" class="profile-avatar" alt="Avatar">
@@ -314,112 +236,66 @@
             <input type="file" id="avatarUpload" accept="image/*" style="display: none;" onchange="loadAvatar(event)">
             
             <div class="profile-details">
-                <input type="text" id="profileNameInput" class="profile-name" value="VoidKitten#0001" placeholder="Click to edit name...">
-                <div class="profile-rank" id="profileRankDisplay">Rank: Loading...</div>
+                <input type="text" id="profileNameInput" class="profile-name" value="Guest Account" readonly>
+                <div class="profile-rank" id="profileRankDisplay">Rank: Server Member</div>
             </div>
         </div>
 
+        <!-- Live Vault Card -->
         <div class="card">
             <div class="status-container">
                 <span class="status-dot"></span>
-                Your Vault Secure
+                Live Database Connected
             </div>
-            <div class="currency-title">Your Balance</div>
-            <div class="currency">🐾 <span id="balanceDisplay">0</span></div>
+            <div class="currency-title">Global Server Economy Active</div>
+            <div class="currency" style="font-size: 2rem; margin: 20px 0; color: #9472f1;">Use commands in Discord to earn!</div>
             
             <div class="action-btns">
-                <button class="btn btn-work" id="workBtn">💼 Work for Skypaws</button>
-                <a href="https://discord.gg/hkURt2yfs6" class="btn" target="_blank">Join Server</a>
-            </div>
-            <div id="workCooldown" style="color: #f23f43; font-size: 0.85rem; margin-top: 8px; height: 15px;"></div>
-        </div>
-
-        <div class="card casino-section">
-            <div class="currency-title" style="color: #fff; font-weight: bold;">🎰 Skyline High-Rollers Slot Machine</div>
-            <div class="slots-display" id="slotsDisplay">🐾 🐾 🐾</div>
-            
-            <div class="input-group">
-                <label style="color: #e3e5e8;">Bet Amount (🐾):</label>
-                <input type="number" id="betInput" value="100" min="10" style="width: 120px;">
-            </div>
-            
-            <button class="btn" id="gambleBtn" style="background-color: #9472f1; box-shadow: 0 4px 12px rgba(148,114,241,0.4);">Pull Lever</button>
-            
-            <div class="terminal-box" id="casinoLog">
-                [CASINO] Insert a bet and pull the lever to try your luck!<br>
+                <a href="https://discord.gg/hkURt2yfs6" class="btn" target="_blank">Join Discord Server</a>
             </div>
         </div>
 
+        <!-- Shop Section -->
         <h2>🛒 Skypaws Server Shop Hub</h2>
         <div class="shop-grid">
-            <div class="shop-item" id="item-vip" data-price="5000">
+            <div class="shop-item">
                 <div class="item-name">🔮 Midnight VIP</div>
-                <div class="item-desc">Unlock a glowing purple name and secret chat access.</div>
+                <div class="item-desc">Buy directly in Discord using your real balance!</div>
                 <div class="item-price">🐾 5,000</div>
-                <button class="btn btn-buy" onclick="buyItem('Midnight VIP', 5000)">Purchase</button>
             </div>
-
-            <div class="shop-item" id="item-color" data-price="2500">
+            <div class="shop-item">
                 <div class="item-name">🎨 Custom Color</div>
-                <div class="item-desc">Pick any custom color role for your username!</div>
+                <div class="item-desc">Buy directly in Discord using your real balance!</div>
                 <div class="item-price">🐾 2,500</div>
-                <button class="btn btn-buy" onclick="buyItem('Custom Color', 2500)">Purchase</button>
             </div>
-
-            <div class="shop-item" id="item-shoutout" data-price="10000">
+            <div class="shop-item">
                 <div class="item-name">📣 Server Shoutout</div>
-                <div class="item-desc">Get an @everyone shoutout pinned in announcement.</div>
+                <div class="item-desc">Buy directly in Discord using your real balance!</div>
                 <div class="item-price">🐾 10,000</div>
-                <button class="btn btn-buy" onclick="buyItem('Server Shoutout', 10000)">Purchase</button>
             </div>
         </div>
 
-        <h2>🏆 Top Skypaws Wealth Rankings</h2>
+        <!-- 🏆 REAL LIVE SERVER LEADERBOARD -->
+        <h2>🏆 Real Skypaws Wealth Rankings</h2>
         <div class="leaderboard-list" id="leaderboardDisplay">
-            </div>
+            <div class="loading-text">Fetching live database rankings from Discord...</div>
+        </div>
 
     </div>
 
+    <!-- 🛠️ LIVE SHEETDB ENGINE -->
     <script>
-        let balance = parseInt(localStorage.getItem('skypaws_balance')) || 0;
-        const emojis = ['🐾', '💎', '👑', '🐱', '❌'];
+        // Paste your SheetDB API URL inside the quotes below!
+        const SHEETDB_API_URL = "YOUR_SHEETDB_API_URL_HERE";
 
-        // Static Competitors Data List
-        let leaderboardData = [
-            { name: "SkylineX (Owner)", balance: 12500, isUser: false },
-            { name: "BogdanBar", balance: 6200, isUser: false },
-            { name: "CarlBot Admin", balance: 3500, isUser: false },
-            { name: "ShadowPaws", balance: 850, isUser: false }
-        ];
-
-        const balanceDisplay = document.getElementById('balanceDisplay');
-        const profileRankDisplay = document.getElementById('profileRankDisplay');
-        const profileNameInput = document.getElementById('profileNameInput');
-        const avatarImage = document.getElementById('avatarImage');
-        const workBtn = document.getElementById('workBtn');
-        const workCooldown = document.getElementById('workCooldown');
-        const betInput = document.getElementById('betInput');
-        const gambleBtn = document.getElementById('gambleBtn');
-        const slotsDisplay = document.getElementById('slotsDisplay');
-        const casinoLog = document.getElementById('casinoLog');
-        const shopItems = document.querySelectorAll('.shop-item');
         const leaderboardDisplay = document.getElementById('leaderboardDisplay');
+        const avatarImage = document.getElementById('avatarImage');
 
-        if (localStorage.getItem('skypaws_username')) {
-            profileNameInput.value = localStorage.getItem('skypaws_username');
-        }
+        // Local custom avatar support
         if (localStorage.getItem('skypaws_avatar')) {
             avatarImage.src = localStorage.getItem('skypaws_avatar');
         }
-
-        profileNameInput.addEventListener('input', () => {
-            localStorage.setItem('skypaws_username', profileNameInput.value);
-            updateUI(); // Refresh leaderboard names instantly
-        });
-
-        function triggerAvatarUpload() {
-            document.getElementById('avatarUpload').click();
-        }
+        function triggerAvatarUpload() { document.getElementById('avatarUpload').click(); }
         function loadAvatar(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
@@ -427,150 +303,59 @@
                 avatarImage.src = reader.result;
                 localStorage.setItem('skypaws_avatar', reader.result);
             }
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            if (file) { reader.readAsDataURL(file); }
         }
 
-        function updateRank() {
-            if (balance < 1000) {
-                profileRankDisplay.innerText = "Rank: 🐾 Void Kitten";
-            } else if (balance >= 1000 && balance < 5000) {
-                profileRankDisplay.innerText = "Rank: 💰 Rising Hustler";
-            } else if (balance >= 5000 && balance < 15000) {
-                profileRankDisplay.innerText = "Rank: 🎰 High Roller";
-            } else {
-                profileRankDisplay.innerText = "Rank: 👑 Server Banker";
-            }
-        }
-
-        // Dynamically recalculate leaderboard standing position grids
-        function refreshLeaderboard() {
-            const currentName = profileNameInput.value || "VoidKitten#0001";
-            
-            // Clean out old player data copies, filter out user row entries
-            let freshList = leaderboardData.filter(player => !player.isUser);
-            
-            // Push active player data inside list stack
-            freshList.push({ name: currentName + " (You)", balance: balance, isUser: true });
-            
-            // Sort list from highest cash stacks to lowest
-            freshList.sort((a, b) => b.balance - a.balance);
-            
-            // Render HTML structure items inside parent block
-            leaderboardDisplay.innerHTML = "";
-            freshList.forEach((player, index) => {
-                let rankIcon = `#${index + 1}`;
-                if(index === 0) rankIcon = "🥇";
-                if(index === 1) rankIcon = "🥈";
-                if(index === 2) rankIcon = "🥉";
-
-                const highlightClass = player.isUser ? "user-highlight" : "";
-
-                leaderboardDisplay.innerHTML += `
-                    <div class="leaderboard-row ${highlightClass}">
-                        <div class="leaderboard-rank">${rankIcon}</div>
-                        <div class="leaderboard-name">${player.name}</div>
-                        <div class="leaderboard-score">🐾 ${player.balance.toLocaleString()}</div>
-                    </div>
-                `;
-            });
-        }
-
-        function updateUI() {
-            balanceDisplay.innerText = balance.toLocaleString();
-            localStorage.setItem('skypaws_balance', balance);
-            updateRank();
-            refreshLeaderboard();
-            
-            shopItems.forEach(item => {
-                const itemCost = parseInt(item.getAttribute('data-price'));
-                if (balance >= itemCost) {
-                    item.classList.add('affordable');
-                    item.classList.remove('locked');
-                } else {
-                    item.classList.remove('affordable');
-                    item.classList.add('locked');
-                }
-            });
-        }
-
-        // 💼 WORK ACTION MECHANIC
-        workBtn.addEventListener('click', () => {
-            const pay = Math.floor(Math.random() * 200) + 100;
-            balance += pay;
-            updateUI();
-            
-            casinoLog.innerHTML = `[WORK] You completed tasks and earned 🐾 ${pay}!<br>` + casinoLog.innerHTML;
-            
-            workBtn.disabled = true;
-            let cooldownTime = 5;
-            workCooldown.innerText = `Cooldown active: ${cooldownTime}s`;
-            
-            const timer = setInterval(() => {
-                cooldownTime--;
-                if (cooldownTime <= 0) {
-                    clearInterval(timer);
-                    workBtn.disabled = false;
-                    workCooldown.innerText = '';
-                } else {
-                    workCooldown.innerText = `Cooldown active: ${cooldownTime}s`;
-                }
-            }, 1000);
-        });
-
-        // 🎰 CASINO GAMBLE ACTION MECHANIC
-        gambleBtn.addEventListener('click', () => {
-            const bet = parseInt(betInput.value) || 0;
-            
-            if (bet <= 0) {
-                alert("Please enter a valid bet amount!");
-                return;
-            }
-            if (bet > balance) {
-                alert("You don't have enough Skypaws in your vault for that bet!");
+        // Fetch real database data from the Google Sheet via SheetDB
+        async function fetchLiveLeaderboard() {
+            if (SHEETDB_API_URL === "YOUR_SHEETDB_API_URL_HERE") {
+                leaderboardDisplay.innerHTML = `<div class="loading-text" style="color: #f23f43;">⚠️ Code uploaded! Waiting for Step 2 (Google Sheets connection Setup).</div>`;
                 return;
             }
 
-            balance -= bet;
-            
-            const s1 = emojis[Math.floor(Math.random() * emojis.length)];
-            const s2 = emojis[Math.floor(Math.random() * emojis.length)];
-            const s3 = emojis[Math.floor(Math.random() * emojis.length)];
-            
-            slotsDisplay.innerText = `${s1} ${s2} ${s3}`;
+            try {
+                const response = await fetch(SHEETDB_API_URL);
+                const data = await response.json();
 
-            if (s1 === s2 && s2 === s3) {
-                let multiplier = 5;
-                if (s1 === '👑') multiplier = 10;
-                
-                const winAmount = bet * multiplier;
-                balance += winAmount;
-                casinoLog.innerHTML = `[🎰 JACKPOT] ${s1}${s2}${s3} - TRIPLE MATCH! Won 🐾 ${winAmount}!<br>` + casinoLog.innerHTML;
-            } else if (s1 === s2 || s2 === s3 || s1 === s3) {
-                const winAmount = Math.floor(bet * 1.5);
-                balance += winAmount;
-                casinoLog.innerHTML = `[🎰 WIN] Double match! Won 🐾 ${winAmount}.<br>` + casinoLog.innerHTML;
-            } else {
-                casinoLog.innerHTML = `[🎰 LOSE] No match. Lost 🐾 ${bet}. Try again!<br>` + casinoLog.innerHTML;
-            }
+                if (!data || data.length === 0) {
+                    leaderboardDisplay.innerHTML = `<div class="loading-text">The ledger is empty. Start working in Discord!</div>`;
+                    return;
+                }
 
-            updateUI();
-        });
+                // Clean data: Ensure balances are read as real numbers
+                let players = data.map(row => ({
+                    name: row.Username || "Unknown Player",
+                    balance: parseInt(row.Balance) || 0
+                }));
 
-        // 🛒 PURCHASE PROCESSING HANDLER
-        window.buyItem = function(itemName, cost) {
-            if (balance >= cost) {
-                balance -= cost;
-                updateUI();
-                alert(`🎉 Successfully bought ${itemName}! Claim it from server staff.`);
-                casinoLog.innerHTML = `[SHOP] Purchased ${itemName} for 🐾 ${cost.toLocaleString()}.<br>` + casinoLog.innerHTML;
-            } else {
-                alert("Insufficient funds inside your local session vault!");
+                // Sort real players from highest to lowest wealth
+                players.sort((a, b) => b.balance - a.balance);
+
+                // Build the live leaderboard
+                leaderboardDisplay.innerHTML = "";
+                players.forEach((player, index) => {
+                    let rankIcon = `#${index + 1}`;
+                    if(index === 0) rankIcon = "🥇";
+                    if(index === 1) rankIcon = "🥈";
+                    if(index === 2) rankIcon = "🥉";
+
+                    leaderboardDisplay.innerHTML += `
+                        <div class="leaderboard-row">
+                            <div class="leaderboard-rank">${rankIcon}</div>
+                            <div class="leaderboard-name">${player.name}</div>
+                            <div class="leaderboard-score">🐾 ${player.balance.toLocaleString()}</div>
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                console.error("Database Error:", error);
+                leaderboardDisplay.innerHTML = `<div class="loading-text" style="color: #f23f43;">❌ Failed to load live data. Check API configuration.</div>`;
             }
         }
 
-        updateUI();
+        // Run on page startup
+        fetchLiveLeaderboard();
     </script>
 
 </body>
