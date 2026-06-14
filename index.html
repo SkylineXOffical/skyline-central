@@ -252,6 +252,49 @@
             text-align: left;
         }
 
+        /* 🏆 LEADERBOARD STYLES */
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1e1f22;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid #2b2d31;
+            font-weight: 600;
+        }
+        .leaderboard-rank {
+            width: 30px;
+            font-size: 1.1rem;
+            color: #949ba4;
+            text-align: left;
+        }
+        .leaderboard-name {
+            flex: 1;
+            text-align: left;
+            color: #e3e5e8;
+            padding-left: 10px;
+        }
+        .leaderboard-score {
+            color: #23a55a;
+        }
+        /* Style when YOU are highlighted in the list */
+        .user-highlight {
+            border-color: #5865F2 !important;
+            background: linear-gradient(90deg, #1e1f22, #1a1c38);
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.15);
+        }
+        .user-highlight .leaderboard-name {
+            color: #fff;
+            font-weight: bold;
+        }
+
         /* STATUS MODIFIERS */
         .affordable { border-color: #23a55a !important; }
         .locked { opacity: 0.6; border-color: #f23f43 !important; }
@@ -331,12 +374,23 @@
             </div>
         </div>
 
+        <h2>🏆 Top Skypaws Wealth Rankings</h2>
+        <div class="leaderboard-list" id="leaderboardDisplay">
+            </div>
+
     </div>
 
     <script>
-        // Load initial balance, default to 0 if no save found
         let balance = parseInt(localStorage.getItem('skypaws_balance')) || 0;
         const emojis = ['🐾', '💎', '👑', '🐱', '❌'];
+
+        // Static Competitors Data List
+        let leaderboardData = [
+            { name: "SkylineX (Owner)", balance: 12500, isUser: false },
+            { name: "BogdanBar", balance: 6200, isUser: false },
+            { name: "CarlBot Admin", balance: 3500, isUser: false },
+            { name: "ShadowPaws", balance: 850, isUser: false }
+        ];
 
         const balanceDisplay = document.getElementById('balanceDisplay');
         const profileRankDisplay = document.getElementById('profileRankDisplay');
@@ -349,8 +403,8 @@
         const slotsDisplay = document.getElementById('slotsDisplay');
         const casinoLog = document.getElementById('casinoLog');
         const shopItems = document.querySelectorAll('.shop-item');
+        const leaderboardDisplay = document.getElementById('leaderboardDisplay');
 
-        // Load saved Name and Profile Picture from device memory
         if (localStorage.getItem('skypaws_username')) {
             profileNameInput.value = localStorage.getItem('skypaws_username');
         }
@@ -358,12 +412,11 @@
             avatarImage.src = localStorage.getItem('skypaws_avatar');
         }
 
-        // Save username changes automatically as they type
         profileNameInput.addEventListener('input', () => {
             localStorage.setItem('skypaws_username', profileNameInput.value);
+            updateUI(); // Refresh leaderboard names instantly
         });
 
-        // Save Avatar images using Base64 string compression data
         function triggerAvatarUpload() {
             document.getElementById('avatarUpload').click();
         }
@@ -372,7 +425,7 @@
             const reader = new FileReader();
             reader.onloadend = function() {
                 avatarImage.src = reader.result;
-                localStorage.setItem('skypaws_avatar', reader.result); // Save string data
+                localStorage.setItem('skypaws_avatar', reader.result);
             }
             if (file) {
                 reader.readAsDataURL(file);
@@ -391,11 +444,44 @@
             }
         }
 
-        // Save state values and re-evaluate interface rendering
+        // Dynamically recalculate leaderboard standing position grids
+        function refreshLeaderboard() {
+            const currentName = profileNameInput.value || "VoidKitten#0001";
+            
+            // Clean out old player data copies, filter out user row entries
+            let freshList = leaderboardData.filter(player => !player.isUser);
+            
+            // Push active player data inside list stack
+            freshList.push({ name: currentName + " (You)", balance: balance, isUser: true });
+            
+            // Sort list from highest cash stacks to lowest
+            freshList.sort((a, b) => b.balance - a.balance);
+            
+            // Render HTML structure items inside parent block
+            leaderboardDisplay.innerHTML = "";
+            freshList.forEach((player, index) => {
+                let rankIcon = `#${index + 1}`;
+                if(index === 0) rankIcon = "🥇";
+                if(index === 1) rankIcon = "🥈";
+                if(index === 2) rankIcon = "🥉";
+
+                const highlightClass = player.isUser ? "user-highlight" : "";
+
+                leaderboardDisplay.innerHTML += `
+                    <div class="leaderboard-row ${highlightClass}">
+                        <div class="leaderboard-rank">${rankIcon}</div>
+                        <div class="leaderboard-name">${player.name}</div>
+                        <div class="leaderboard-score">🐾 ${player.balance.toLocaleString()}</div>
+                    </div>
+                `;
+            });
+        }
+
         function updateUI() {
             balanceDisplay.innerText = balance.toLocaleString();
-            localStorage.setItem('skypaws_balance', balance); // Auto-save balance to phone memory
+            localStorage.setItem('skypaws_balance', balance);
             updateRank();
+            refreshLeaderboard();
             
             shopItems.forEach(item => {
                 const itemCost = parseInt(item.getAttribute('data-price'));
@@ -484,7 +570,6 @@
             }
         }
 
-        // Initialize state configuration on startup
         updateUI();
     </script>
 
