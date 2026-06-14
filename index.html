@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Central - Skypaws Hub</title>
+    <title>Skyline Central - Skypaws Bank Vault</title>
     <style>
         body {
             background-color: #111214;
@@ -48,19 +48,18 @@
             margin-bottom: 8px;
             font-size: 0.95rem;
         }
-        input[type="number"] {
+        input[type="number"], input[type="text"], select {
             background-color: #111214;
             border: 1px solid #2b2d31;
             padding: 10px 15px;
             border-radius: 8px;
             color: #fff;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-align: center;
-            width: 150px;
             outline: none;
             transition: border 0.2s;
         }
-        input[type="number"]:focus {
+        input:focus, select:focus {
             border-color: #5865F2;
         }
         .status-container {
@@ -125,7 +124,6 @@
             padding: 20px;
             text-align: left;
             transition: all 0.2s ease;
-            position: relative;
         }
         .item-name {
             font-size: 1.2rem;
@@ -160,15 +158,58 @@
             border: 1px solid #2b2d31;
         }
         
+        /* BANKER ADMIN PANEL STYLES */
+        .admin-panel {
+            background-color: #1a1b1e;
+            border: 2px dashed #9472f1;
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 50px;
+            text-align: left;
+        }
+        .admin-title {
+            color: #9472f1;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .admin-field {
+            flex: 1;
+            min-width: 180px;
+        }
+        .admin-field label {
+            text-align: left;
+        }
+        .admin-field input, .admin-field select {
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .terminal-box {
+            background-color: #0c0d0e;
+            border: 1px solid #2b2d31;
+            font-family: monospace;
+            padding: 15px;
+            border-radius: 8px;
+            color: #23a55a;
+            height: 120px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
         /* STATUS MODIFIERS */
-        .affordable {
-            border-color: #23a55a !important;
-            box-shadow: 0 0 12px rgba(35, 165, 90, 0.2);
-        }
-        .locked {
-            opacity: 0.6;
-            border-color: #f23f43 !important;
-        }
+        .affordable { border-color: #23a55a !important; }
+        .locked { opacity: 0.6; border-color: #f23f43 !important; }
     </style>
 </head>
 <body>
@@ -180,12 +221,12 @@
         <div class="card">
             <div class="status-container">
                 <span class="status-dot"></span>
-                Skypaws Engine Live
+                Skypaws System Secure
             </div>
 
             <div class="input-group">
-                <label for="balanceInput">Enter your current Skypaws Balance:</label>
-                <input type="number" id="balanceInput" value="0" min="0">
+                <label for="balanceInput">Client Balance Checker (🐾):</label>
+                <input type="number" id="balanceInput" value="0" min="0" style="width: 180px;">
             </div>
             
             <div>
@@ -195,7 +236,6 @@
 
         <h2>🛒 Skypaws Server Shop Hub</h2>
         <div class="shop-grid">
-            
             <div class="shop-item" data-price="5000">
                 <div class="item-name">🔮 Midnight VIP</div>
                 <div class="item-desc">Unlock a glowing purple name and secret chat access.</div>
@@ -216,20 +256,58 @@
                 <div class="item-price">🐾 10,000</div>
                 <div class="buy-cmd">Buy code: !buy shoutout</div>
             </div>
-
         </div>
+
+        <div class="admin-panel">
+            <div class="admin-title">🛠️ Banker Command Console</div>
+            <p style="color: #949ba4; font-size: 0.9rem; margin-top: -10px; margin-bottom: 20px;">
+                Authorized employee workspace. Use this to format bot commands effortlessly.
+            </p>
+            
+            <div class="admin-row">
+                <div class="admin-field">
+                    <label>Action Type</label>
+                    <select id="actionType">
+                        <option value="give">Give Skypaws (!eco give)</option>
+                        <option value="take">Take Skypaws (!eco take)</option>
+                        <option value="set">Set Balance (!eco set)</option>
+                    </select>
+                </div>
+                <div class="admin-field">
+                    <label>Target User ID / Mention</label>
+                    <input type="text" id="targetUser" placeholder="@username or ID">
+                </div>
+                <div class="admin-field">
+                    <label>Amount (🐾)</label>
+                    <input type="number" id="actionAmount" value="1000">
+                </div>
+            </div>
+
+            <button class="btn" id="generateCmdBtn" style="margin-top: 5px; background-color: #9472f1;">Generate Bot Command</button>
+
+            <div class="terminal-box" id="terminalLog">
+                [SYSTEM] Skypaws Bank Terminal initialized... Waiting for administrator input.<br>
+            </div>
+        </div>
+
     </div>
 
     <script>
         const balanceInput = document.getElementById('balanceInput');
         const shopItems = document.querySelectorAll('.shop-item');
+        
+        // Admin Panel Elements
+        const actionType = document.getElementById('actionType');
+        const targetUser = document.getElementById('targetUser');
+        const actionAmount = document.getElementById('actionAmount');
+        const generateCmdBtn = document.getElementById('generateCmdBtn');
+        const terminalLog = document.getElementById('terminalLog');
 
+        // Real-time client balance afford check
         function checkAffordableItems() {
             const currentBalance = parseInt(balanceInput.value) || 0;
-
             shopItems.forEach(item => {
                 const itemCost = parseInt(item.getAttribute('data-price'));
-
                 if (currentBalance >= itemCost) {
                     item.classList.add('affordable');
                     item.classList.remove('locked');
@@ -239,9 +317,25 @@
                 }
             });
         }
-
         balanceInput.addEventListener('input', checkAffordableItems);
         checkAffordableItems();
+
+        // Banker Command Generator
+        generateCmdBtn.addEventListener('click', () => {
+            const type = actionType.value;
+            const user = targetUser.value.trim() || "@user";
+            const amt = actionAmount.value || "0";
+            
+            let commandText = "";
+            if(type === "give") commandText = `!eco give ${user} ${amt}`;
+            if(type === "take") commandText = `!eco take ${user} ${amt}`;
+            if(type === "set")  commandText = `!eco set ${user} ${amt}`;
+            
+            // Format log print inside terminal box
+            const timestamp = new Date().toLocaleTimeString();
+            terminalLog.innerHTML += `[${timestamp}] Generated: <span style="color: #fff; font-weight: bold;">${commandText}</span><br>`;
+            terminalLog.scrollTop = terminalLog.scrollHeight; // Auto scroll down
+        });
     </script>
 
 </body>
