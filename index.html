@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Central - Skypaws Bank</title>
+    <title>Skyline Central - Skypaws Hub</title>
     <style>
         body {
             background-color: #111214;
             color: #D6C7E1;
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             margin: 0;
         }
         h1 { 
@@ -23,29 +23,45 @@
         .subtitle { 
             color: #949ba4; 
             font-size: 1rem; 
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
         .card {
             background-color: #1e1f22;
             border-radius: 16px;
-            padding: 35px 25px;
-            max-width: 400px;
-            margin: 0 auto;
+            padding: 30px 25px;
+            margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             border: 1px solid #2b2d31;
         }
-        .currency-title { 
-            font-size: 1.1rem; 
-            color: #b5bac1; 
-            font-weight: 500;
+        .input-group {
+            margin: 20px 0;
         }
-        .currency { 
-            font-size: 3.8rem; 
-            margin: 20px 0; 
-            color: #fff; 
-            font-weight: 800;
+        label {
+            display: block;
+            color: #b5bac1;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        input[type="number"] {
+            background-color: #111214;
+            border: 1px solid #2b2d31;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 150px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        input[type="number"]:focus {
+            border-color: #5865F2;
         }
         .status-container {
             display: inline-flex;
@@ -56,7 +72,7 @@
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: bold;
-            margin-bottom: 35px;
+            margin-bottom: 10px;
             border: 1px solid rgba(35, 165, 90, 0.2);
         }
         .status-dot {
@@ -68,45 +84,178 @@
             box-shadow: 0 0 8px #23a55a;
         }
         .btn {
-            display: block;
+            display: inline-block;
             background-color: #5865F2;
             color: white;
             border: none;
-            padding: 14px 20px;
+            padding: 12px 30px;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
             transition: all 0.2s ease;
+            margin-top: 15px;
         }
         .btn:hover {
             background-color: #4752c4;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(88, 101, 242, 0.4);
         }
-        .btn:active {
-            transform: translateY(0);
+        
+        /* SHOP STYLES */
+        h2 {
+            color: #ffffff;
+            margin-top: 40px;
+            font-size: 1.8rem;
+            text-align: left;
+            border-bottom: 2px solid #2b2d31;
+            padding-bottom: 10px;
+        }
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .shop-item {
+            background-color: #1e1f22;
+            border: 2px solid #2b2d31;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .item-desc {
+            font-size: 0.85rem;
+            color: #949ba4;
+            margin-bottom: 15px;
+            height: 35px;
+        }
+        .item-price {
+            font-size: 1.1rem;
+            color: #23a55a;
+            font-weight: bold;
+            background-color: rgba(35, 165, 90, 0.1);
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        .buy-cmd {
+            font-family: monospace;
+            background-color: #111214;
+            padding: 4px 6px;
+            border-radius: 4px;
+            color: #e3e5e8;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 12px;
+            border: 1px solid #2b2d31;
+        }
+        
+        /* STATUS MODIFIERS (JavaScript updates these) */
+        .affordable {
+            border-color: #23a55a !important;
+            box-shadow: 0 0 12px rgba(35, 165, 144, 0.15);
+        }
+        .locked {
+            opacity: 0.6;
+            border-color: #f23f43 !important;
         }
     </style>
 </head>
 <body>
 
-    <h1>🐾 ꜱᴋʏᴘᴀᴡꜱ ʙᴀɴᴋ 🐾</h1>
-    <div class="subtitle">Official Skyline Central Economy Hub</div>
+    <div class="container">
+        <h1>🐾 ꜱᴋʏᴘᴀᴡꜱ ʙᴀɴᴋ 🐾</h1>
+        <div class="subtitle">Official Skyline Central Economy Hub</div>
 
-    <div class="card">
-        <div class="currency-title">Total Server Wealth</div>
-        <div class="currency">🐾 0</div>
-        
-        <div class="status-container">
-            <span class="status-dot"></span>
-            Economy Online
+        <!-- Bank Card -->
+        <div class="card">
+            <div class="status-container">
+                <span class="status-dot"></span>
+                Skypaws Engine Live
+            </div>
+
+            <div class="input-group">
+                <label for="balanceInput">Enter your current Skypaws Balance:</label>
+                <input type="number" id="balanceInput" value="0" min="0">
+            </div>
+            
+            <div>
+                <a href="https://discord.gg/hkURt2yfs6" class="btn" target="_blank">Join Discord Server</a>
+            </div>
         </div>
-        
-        <a href="https://discord.gg/hkURt2yfs6" class="btn" target="_blank">Join Discord Server</a>
+
+        <!-- Shop Section -->
+        <h2>🛒 Skypaws Server Shop Hub</h2>
+        <div class="shop-grid">
+            
+            <!-- Item 1 (Price: 5000) -->
+            <div class="shop-item" data-price="5000">
+                <div class="item-name">🔮 Midnight VIP</div>
+                <div class="item-desc">Unlock a glowing purple name and secret chat access.</div>
+                <div class="item-price">🐾 5,000</div>
+                <div class="buy-cmd">Buy code: !buy midnight-vip</div>
+            </div>
+
+            <!-- Item 2 (Price: 2500) -->
+            <div class="shop-item" data-price="2500">
+                <div class="item-name">🎨 Custom Color</div>
+                <div class="item-desc">Pick any custom color role for your username!</div>
+                <div class="item-price">🐾 2,500</div>
+                <div class="buy-cmd">Buy code: !buy color</div>
+            </div>
+
+            <!-- Item 3 (Price: 10000) -->
+            <div class="shop-item" data-price="10000">
+                <div class="item-name">📣 Server Shoutout</div>
+                <div class="item-desc">Get an @everyone shoutout pinned in announcement.</div>
+                <div class="item-price">🐾 10,000</div>
+                <div class="buy-cmd">Buy code: !buy shoutout</div>
+            </div>
+
+        </div>
     </div>
+
+    <!-- 🛠️ JAVASCRIPT ENGINE SCRIPT 🛠️ -->
+    <script>
+        const balanceInput = document.getElementById('balanceInput');
+        const shopItems = document.querySelectorAll('.shop-item');
+
+        function checkAffordableItems() {
+            // Get value from input box, default to 0 if blank
+            const currentBalance = parseInt(balanceInput.value) || 0;
+
+            shopItems.forEach(item => {
+                // Read the cost data attribute from the HTML item setup
+                const itemCost = parseInt(item.getAttribute('data-price'));
+
+                if (currentBalance >= itemCost) {
+                    // Turn border green if user can buy it
+                    item.classList.add('affordable');
+                    item.classList.remove('locked');
+                } else {
+                    // Turn border reddish-tint/fade if locked
+                    item.classList.remove('affordable');
+                    item.classList.add('locked');
+                }
+            });
+        }
+
+        // Listen for typing activity in real-time
+        balanceInput.addEventListener('input', checkAffordableItems);
+
+        // Run checking calculation immediately on page bootup
+        checkAffordableItems();
+    </script>
 
 </body>
 </html>
